@@ -45,7 +45,7 @@ neigb=[-1 0; 1 0; 0 -1;0 1];
 % higher than a certain treshold
 while(pixdist<reg_maxdist&&reg_size<numel(I))
     % Add new neighbors pixels
-    for j=1:4,
+    for j=1:4
         % Calculate the neighbour coordinate
         xn = x +neigb(j,1); yn = y +neigb(j,2); %lan can 4
         
@@ -55,7 +55,8 @@ while(pixdist<reg_maxdist&&reg_size<numel(I))
         % Add neighbor if inside and not already part of the segmented area
         if(ins&&(J(xn,yn)==0)) 
                 neg_pos = neg_pos+1;
-                neg_list(neg_pos,:) = [xn yn I(xn,yn)]; J(xn,yn)=1;
+                neg_list(neg_pos,:) = [xn yn I(xn,yn)]; 
+                J(xn,yn)=1;
         end
     end
     % Add a new block of free memory
@@ -66,10 +67,7 @@ while(pixdist<reg_maxdist&&reg_size<numel(I))
     [pixdist, index] = min(dist);
     J(x,y)=2; 
     reg_size=reg_size+1;
-    
-    % Calculate the new mean of the region
-    %reg_mean= (reg_mean*reg_size + neg_list(index,3))/(reg_size+1);
-    
+        
     % Save the x and y coordinates of the pixel (for the neighbour add proccess)
     x = neg_list(index,1); 
     y = neg_list(index,2);
